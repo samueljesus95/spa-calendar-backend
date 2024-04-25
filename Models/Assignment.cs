@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Identity.Client;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace spa_calendar_backend.Models
@@ -15,6 +16,8 @@ namespace spa_calendar_backend.Models
         
         [StringLength(256)]
         public String? Description { get; set; }
+
+        public Tags[]? Tags { get; set; }
 
         [Required]
         public DateTime StartDate { get; set; }

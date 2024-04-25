@@ -10,9 +10,8 @@ namespace spa_calendar_backend.Repositories
         public AssignmentRepository(AppDbContext appDbContext) { _appDbContext = appDbContext; }
         public void AddAssignment(Assignment assignment)
         {
-            if(assignment == null)
-                throw new ArgumentNullException(nameof(assignment));
-            
+            ArgumentNullException.ThrowIfNull(assignment);
+
             _appDbContext.Assignments.Add(assignment);
             _appDbContext.SaveChanges();
         }
@@ -20,8 +19,7 @@ namespace spa_calendar_backend.Repositories
         public void DeleteAssignment(int id)
         {
             var assignment = _appDbContext.Assignments.Find(id);
-            if (assignment == null)
-                throw new ArgumentNullException(nameof(assignment));
+            ArgumentNullException.ThrowIfNull(assignment);
 
             _appDbContext.Assignments.Remove(assignment);
             _appDbContext.SaveChanges();
@@ -34,13 +32,12 @@ namespace spa_calendar_backend.Repositories
 
         public Assignment GetAssignmentById(int id)
         {
-            return _appDbContext.Assignments.FirstOrDefault(a => a.Id == id);
+            return _appDbContext.Assignments.FirstOrDefault(x => x.Id == id);
         }
 
         public void UpdateAssignment(Assignment assignment)
         {
-            if(assignment == null)
-                throw new ArgumentNullException(nameof(assignment));
+            ArgumentNullException.ThrowIfNull(assignment);
 
             _appDbContext.Entry(assignment).State = EntityState.Modified;
             _appDbContext.SaveChanges();

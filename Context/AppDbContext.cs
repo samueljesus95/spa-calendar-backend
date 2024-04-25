@@ -11,5 +11,6 @@ namespace spa_calendar_backend.Context
         }
 
         public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<Tags> Tags { get; set; }
     }
 }
