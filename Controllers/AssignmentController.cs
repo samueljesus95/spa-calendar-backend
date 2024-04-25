@@ -4,7 +4,7 @@ using spa_calendar_backend.Repositories;
 
 namespace spa_calendar_backend.Controllers
 {
-    [Route("api/")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AssignmentController : ControllerBase
     {

@@ -17,9 +17,9 @@ namespace spa_calendar_backend.Models
         public String? Description { get; set; }
 
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Required]
-        public int Duration { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }
