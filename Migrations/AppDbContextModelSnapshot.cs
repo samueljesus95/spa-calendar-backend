@@ -40,17 +40,12 @@ namespace spa_calendar_backend.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("TagsId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TagsId");
 
                     b.ToTable("Assignment");
                 });
@@ -71,18 +66,6 @@ namespace spa_calendar_backend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("spa_calendar_backend.Models.Assignment", b =>
-                {
-                    b.HasOne("spa_calendar_backend.Models.Tags", null)
-                        .WithMany("Assignment")
-                        .HasForeignKey("TagsId");
-                });
-
-            modelBuilder.Entity("spa_calendar_backend.Models.Tags", b =>
-                {
-                    b.Navigation("Assignment");
                 });
 #pragma warning restore 612, 618
         }
