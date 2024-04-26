@@ -6,10 +6,10 @@ namespace spa_calendar_backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TagsController : ControllerBase
+    public class TagsController(ITagsRepository tagsRepository) : ControllerBase
     {
-        private readonly ITagsRepository _tagsRepository;
-        public TagsController(ITagsRepository tagsRepository) { _tagsRepository = tagsRepository; }
+        private readonly ITagsRepository _tagsRepository = tagsRepository;
+
         [HttpGet]
         public ActionResult GetAllTags()
         {

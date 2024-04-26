@@ -12,7 +12,7 @@ using spa_calendar_backend.Context;
 namespace spa_calendar_backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240425132023_InitialCreate")]
+    [Migration("20240425235354_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -43,6 +43,9 @@ namespace spa_calendar_backend.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("TagsId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -50,7 +53,39 @@ namespace spa_calendar_backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TagsId");
+
                     b.ToTable("Assignment");
+                });
+
+            modelBuilder.Entity("spa_calendar_backend.Models.Tags", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("spa_calendar_backend.Models.Assignment", b =>
+                {
+                    b.HasOne("spa_calendar_backend.Models.Tags", null)
+                        .WithMany("Assignment")
+                        .HasForeignKey("TagsId");
+                });
+
+            modelBuilder.Entity("spa_calendar_backend.Models.Tags", b =>
+                {
+                    b.Navigation("Assignment");
                 });
 #pragma warning restore 612, 618
         }

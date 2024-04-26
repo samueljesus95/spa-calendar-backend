@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using spa_calendar_backend.Models;
+﻿using spa_calendar_backend.Models;
 
 namespace spa_calendar_backend.Repositories
 {

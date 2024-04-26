@@ -6,10 +6,10 @@ namespace spa_calendar_backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AssignmentController : ControllerBase
+    public class AssignmentController(IAssignmentRepository assignmentRepository) : ControllerBase
     {
-        private readonly IAssignmentRepository _assignmentRepository;
-        public AssignmentController(IAssignmentRepository assignmentRepository) { _assignmentRepository = assignmentRepository; }
+        private readonly IAssignmentRepository _assignmentRepository = assignmentRepository;
+
         [HttpGet]
         public ActionResult GetAllAssignments()
         {

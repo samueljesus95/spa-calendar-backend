@@ -3,10 +3,10 @@ using spa_calendar_backend.Models;
 
 namespace spa_calendar_backend.Repositories
 {
-    public class TagsRepository : ITagsRepository
+    public class TagsRepository(AppDbContext appDbContext) : ITagsRepository
     {
-        private readonly AppDbContext _appDbContext;
-        public TagsRepository(AppDbContext appDbContext) { _appDbContext = appDbContext; }
+        private readonly AppDbContext _appDbContext = appDbContext;
+
         public void AddTags(Tags tags)
         {
             ArgumentNullException.ThrowIfNull(tags);

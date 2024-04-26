@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace spa_calendar_backend.Repositories
 {
-    public class AssignmentRepository : IAssignmentRepository
+    public class AssignmentRepository(AppDbContext appDbContext) : IAssignmentRepository
     {
-        private readonly AppDbContext _appDbContext;
-        public AssignmentRepository(AppDbContext appDbContext) { _appDbContext = appDbContext; }
+        private readonly AppDbContext _appDbContext = appDbContext;
+
         public void AddAssignment(Assignment assignment)
         {
             ArgumentNullException.ThrowIfNull(assignment);
