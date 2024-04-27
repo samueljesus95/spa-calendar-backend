@@ -4,10 +4,10 @@ namespace spa_calendar_backend.Repositories
 {
     public interface ITagsRepository
     {
-        void AddTags(Tags tags);
-        void DeleteTags(int id);
-        List<Tags> GetAllTags();
-        Tags GetTagsById(int id);
-        void UpdateTags(Tags tags);
+        void AddTags(Tag tags);
+        void DeleteTags(string title);
+        List<Tag> GetAllTags();
+        Tag GetTagsByTitle(string title);
+        void UpdateTags(Tag tags);
     }
 }

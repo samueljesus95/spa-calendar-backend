@@ -2,13 +2,13 @@
 
 namespace spa_calendar_backend.Models
 {
-    public class Tags
+    public class Tag
     {
-        [Key]
         public int Id { get; set; }
-
+        
+        [Key]
         [Required]
         [StringLength(50)]
-        public string Name { get; set; }
+        public string Title { get; set; }
     }
 }

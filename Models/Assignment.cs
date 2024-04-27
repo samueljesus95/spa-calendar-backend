@@ -21,5 +21,8 @@ namespace spa_calendar_backend.Models
 
         [Required]
         public DateTime EndDate { get; set; }
+
+        public ICollection<Tag>? Tags { get; set; }
+
     }
 }

@@ -18,10 +18,10 @@ namespace spa_calendar_backend.Controllers
             return Ok(tags);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetTagsById(int id)
+        [HttpGet("{title}")]
+        public IActionResult GetTagsByTitle(string title)
         {
-            var tags = _tagsRepository.GetTagsById(id);
+            var tags = _tagsRepository.GetTagsByTitle(title);
             if (tags == null)
                 return NotFound();
 
@@ -29,22 +29,26 @@ namespace spa_calendar_backend.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddTags([FromBody] Tags tags)
+        public IActionResult AddTags([FromBody] Tag tags)
         {
             if (tags == null)
                 return BadRequest();
 
-            _tagsRepository.AddTags(tags);
-            return CreatedAtAction(nameof(GetTagsById), new { id = tags.Id }, tags);
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult UpdateTags(int id, [FromBody] Tags tags)
-        {
-            if (tags == null || id != tags.Id)
+            var existingTags = _tagsRepository.GetTagsByTitle(tags.Title);
+            if (existingTags != null)
                 return BadRequest();
 
-            var existingTags = _tagsRepository.GetTagsById(id);
+            _tagsRepository.AddTags(tags);
+            return CreatedAtAction(nameof(GetTagsByTitle), new { title = tags.Title }, tags);
+        }
+
+        [HttpPut("{title}")]
+        public IActionResult UpdateTags(string title, [FromBody] Tag tags)
+        {
+            if (tags == null || !title.Equals(tags.Title))
+                return BadRequest();
+
+            var existingTags = _tagsRepository.GetTagsByTitle(title);
             if (existingTags == null)
                 return NotFound();
 
@@ -52,14 +56,14 @@ namespace spa_calendar_backend.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult DeleteTags(int id)
+        [HttpDelete("{title}")]
+        public IActionResult DeleteTags(string title)
         {
-            var existingTags = _tagsRepository.GetTagsById(id);
+            var existingTags = _tagsRepository.GetTagsByTitle(title);
             if (existingTags == null)
                 return NotFound();
 
-            _tagsRepository.DeleteTags(id);
+            _tagsRepository.DeleteTags(title);
             return NoContent();
         }
     }

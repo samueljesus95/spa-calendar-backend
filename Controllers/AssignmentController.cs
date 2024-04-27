@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using spa_calendar_backend.Models;
+using spa_calendar_backend.Models.DTOs;
 using spa_calendar_backend.Repositories;
 
 namespace spa_calendar_backend.Controllers
@@ -14,7 +15,7 @@ namespace spa_calendar_backend.Controllers
         public ActionResult GetAllAssignments()
         {
             var assignments = _assignmentRepository.GetAllAssignments();
-
+            
             return Ok(assignments);
         }
 
@@ -29,38 +30,59 @@ namespace spa_calendar_backend.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddAssignment([FromBody] Assignment assignment)
+        public IActionResult AddAssignment([FromBody] AssignmentDTO assignmentDTO)
         {
-            if(assignment == null)
+            if(assignmentDTO == null)
                 return BadRequest();
+
+            var assignmentTag = new List<Tag>();
+            if (assignmentDTO.Tags != null)
+            {
+                foreach (var tags in assignmentDTO.Tags)
+                {
+                    foreach (var assignmentTags in assignmentTag)
+                    {
+                        assignmentTags.Title = tags;
+                    }
+                }
+            }
+
+            var assignment = new Assignment
+            {
+                Title = assignmentDTO.Title,
+                Description = assignmentDTO.Description,
+                StartDate = assignmentDTO.Start,
+                EndDate = assignmentDTO.End,
+                Tags = assignmentTag
+            };
 
             _assignmentRepository.AddAssignment(assignment);
             return CreatedAtAction(nameof(GetAssignmentById), new { id = assignment.Id }, assignment);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult UpdateAssignment(int id, [FromBody] Assignment assignment)
-        {
-            if (assignment == null || id != assignment.Id)
-                return BadRequest();
+        //[HttpPut("{id}")]
+        //public IActionResult UpdateAssignment(int id, [FromBody] AssignmentDTO assignmentDTO)
+        //{
+        //    if (assignmentDTO == null || id != assignmentDTO.Id)
+        //        return BadRequest();
 
-            var existingAssignment = _assignmentRepository.GetAssignmentById(id);
-            if (existingAssignment == null)
-                return NotFound();
+        //    var existingAssignment = _assignmentRepository.GetAssignmentById(id);
+        //    if (existingAssignment == null)
+        //        return NotFound();
 
-            _assignmentRepository.UpdateAssignment(assignment);
-            return NoContent();
-        }
+        //    _assignmentRepository.UpdateAssignment(assignment);
+        //    return NoContent();
+        //}
 
-        [HttpDelete("{id}")]
-        public IActionResult DeleteAssignment(int id)
-        {
-            var existingAssignment = _assignmentRepository.GetAssignmentById(id);
-            if(existingAssignment == null)
-                return NotFound();
+        //[HttpDelete("{id}")]
+        //public IActionResult DeleteAssignment(int id)
+        //{
+        //    var existingAssignment = _assignmentRepository.GetAssignmentById(id);
+        //    if(existingAssignment == null)
+        //        return NotFound();
 
-            _assignmentRepository.DeleteAssignment(id);
-            return NoContent();
-        }
+        //    _assignmentRepository.DeleteAssignment(id);
+        //    return NoContent();
+        //}
     }
 }

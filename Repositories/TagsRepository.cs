@@ -7,7 +7,7 @@ namespace spa_calendar_backend.Repositories
     {
         private readonly AppDbContext _appDbContext = appDbContext;
 
-        public void AddTags(Tags tags)
+        public void AddTags(Tag tags)
         {
             ArgumentNullException.ThrowIfNull(tags);
 
@@ -15,26 +15,26 @@ namespace spa_calendar_backend.Repositories
             _appDbContext.SaveChanges();
         }
 
-        public void DeleteTags(int id)
+        public void DeleteTags(string title)
         {
-            var tags = _appDbContext.Tags.Find(id);
+            var tags = _appDbContext.Tags.Find(title);
             ArgumentNullException.ThrowIfNull(tags);
 
             _appDbContext.Tags.Remove(tags);
             _appDbContext.SaveChanges();
         }
 
-        public List<Tags> GetAllTags()
+        public List<Tag> GetAllTags()
         {
             return _appDbContext.Tags.ToList();
         }
 
-        public Tags GetTagsById(int id)
+        public Tag GetTagsByTitle(string title)
         {
-            return _appDbContext.Tags.FirstOrDefault(x => x.Id == id);
+            return _appDbContext.Tags.FirstOrDefault(x => x.Title.Equals(title));
         }
 
-        public void UpdateTags(Tags tags)
+        public void UpdateTags(Tag tags)
         {
             ArgumentNullException.ThrowIfNull(tags);
 
