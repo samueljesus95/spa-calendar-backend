@@ -1,20 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using spa_calendar_backend.Models;
 using spa_calendar_backend.Models.DTOs;
-using spa_calendar_backend.Repositories;
+using spa_calendar_backend.Services.Interfaces;
 
 namespace spa_calendar_backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AssignmentController(IAssignmentRepository assignmentRepository) : ControllerBase
+    public class AssignmentController(IAssignmentService assignmentService) : ControllerBase
     {
-        private readonly IAssignmentRepository _assignmentRepository = assignmentRepository;
+        private readonly IAssignmentService _assignmentService = assignmentService;
 
         [HttpGet]
         public ActionResult GetAllAssignments()
         {
-            var assignments = _assignmentRepository.GetAllAssignments();
+            var assignments = _assignmentService.GetAllAssignments();
             
             return Ok(assignments);
         }
@@ -22,7 +21,7 @@ namespace spa_calendar_backend.Controllers
         [HttpGet("{id}")]
         public IActionResult GetAssignmentById(int id)
         {
-            var assignment = _assignmentRepository.GetAssignmentById(id);
+            var assignment = _assignmentService.GetAssignmentById(id);
             if (assignment == null)
                 return NotFound();
 
@@ -35,54 +34,33 @@ namespace spa_calendar_backend.Controllers
             if(assignmentDTO == null)
                 return BadRequest();
 
-            var assignmentTag = new List<Tag>();
-            if (assignmentDTO.Tags != null)
-            {
-                foreach (var tags in assignmentDTO.Tags)
-                {
-                    foreach (var assignmentTags in assignmentTag)
-                    {
-                        assignmentTags.Title = tags;
-                    }
-                }
-            }
-
-            var assignment = new Assignment
-            {
-                Title = assignmentDTO.Title,
-                Description = assignmentDTO.Description,
-                StartDate = assignmentDTO.Start,
-                EndDate = assignmentDTO.End,
-                Tags = assignmentTag
-            };
-
-            _assignmentRepository.AddAssignment(assignment);
-            return CreatedAtAction(nameof(GetAssignmentById), new { id = assignment.Id }, assignment);
+            _assignmentService.AddAssignment(assignmentDTO);
+            return CreatedAtAction(nameof(GetAssignmentById), new { id = assignmentDTO.Id }, assignmentDTO);
         }
 
-        //[HttpPut("{id}")]
-        //public IActionResult UpdateAssignment(int id, [FromBody] AssignmentDTO assignmentDTO)
-        //{
-        //    if (assignmentDTO == null || id != assignmentDTO.Id)
-        //        return BadRequest();
+        [HttpPut("{id}")]
+        public IActionResult UpdateAssignment(int id, [FromBody] AssignmentDTO assignmentDTO)
+        {
+            if (assignmentDTO == null || id != assignmentDTO.Id)
+                return BadRequest();
 
-        //    var existingAssignment = _assignmentRepository.GetAssignmentById(id);
-        //    if (existingAssignment == null)
-        //        return NotFound();
+            var existingAssignment = _assignmentService.GetAssignmentById(id);
+            if (existingAssignment == null)
+                return NotFound();
 
-        //    _assignmentRepository.UpdateAssignment(assignment);
-        //    return NoContent();
-        //}
+            _assignmentService.UpdateAssignment(existingAssignment);
+            return NoContent();
+        }
 
-        //[HttpDelete("{id}")]
-        //public IActionResult DeleteAssignment(int id)
-        //{
-        //    var existingAssignment = _assignmentRepository.GetAssignmentById(id);
-        //    if(existingAssignment == null)
-        //        return NotFound();
+        [HttpDelete("{id}")]
+        public IActionResult DeleteAssignment(int id)
+        {
+            var existingAssignment = _assignmentService.GetAssignmentById(id);
+            if (existingAssignment == null)
+                return NotFound();
 
-        //    _assignmentRepository.DeleteAssignment(id);
-        //    return NoContent();
-        //}
+            _assignmentService.DeleteAssignment(id);
+            return NoContent();
+        }
     }
 }

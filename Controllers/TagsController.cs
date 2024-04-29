@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using spa_calendar_backend.Models;
-using spa_calendar_backend.Repositories;
+using spa_calendar_backend.Repositories.Interfaces;
 
 namespace spa_calendar_backend.Controllers
 {

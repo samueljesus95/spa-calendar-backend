@@ -1,6 +1,6 @@
 ﻿using spa_calendar_backend.Models;
 
-namespace spa_calendar_backend.Repositories
+namespace spa_calendar_backend.Repositories.Interfaces
 {
     public interface ITagsRepository
     {

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using spa_calendar_backend.Context;
 using spa_calendar_backend.Repositories;
+using spa_calendar_backend.Repositories.Interfaces;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);

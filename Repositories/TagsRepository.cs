@@ -1,5 +1,6 @@
 ﻿using spa_calendar_backend.Context;
 using spa_calendar_backend.Models;
+using spa_calendar_backend.Repositories.Interfaces;
 
 namespace spa_calendar_backend.Repositories
 {

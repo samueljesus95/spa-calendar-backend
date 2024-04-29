@@ -1,10 +1,11 @@
 ﻿using spa_calendar_backend.Models;
+using spa_calendar_backend.Models.DTOs;
 
-namespace spa_calendar_backend.Repositories
+namespace spa_calendar_backend.Services.Interfaces
 {
-    public interface IAssignmentRepository
+    public interface IAssignmentService
     {
-        void AddAssignment(Assignment assignment);
+        void AddAssignment(AssignmentDTO assignmentDTO);
         void DeleteAssignment(int id);
         List<Assignment> GetAllAssignments();
         Assignment GetAssignmentById(int id);
