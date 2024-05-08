@@ -12,7 +12,7 @@ using spa_calendar_backend.Context;
 namespace spa_calendar_backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240429175926_InitialCreate")]
+    [Migration("20240508141834_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
